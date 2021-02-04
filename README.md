@@ -34,6 +34,7 @@ For every workplace, one go routine is running, in a 10-second loop.
 <br>
 <br>
 #### Example of relay OFF
+
 ```
 [Inputs 1-8_]
 0-0-0-0-0-0-0-0
@@ -42,6 +43,7 @@ For every workplace, one go routine is running, in a 10-second loop.
 0-0-0-0-0-0-0-0
 ```
 #### Example of relay ON
+
 ```
 [Inputs 1-8_]
 0-0-0-0-0-0-0-0
