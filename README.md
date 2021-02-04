@@ -29,7 +29,7 @@ For every workplace, one go routine is running, in a 10-second loop.
     - program checks for assigned terminal deviceid
     - program checks for assigned zapsi deviceid
     - program checks for any open terminal_input_order (DTE == null) for assigned terminal device_id, two times with 3 second pause
-2. If any open terminal_input_order found, program checks assigned zapsi for Relay ON
+2. If any open terminal_input_order is found, program checks assigned zapsi for Relay ON
     - If Relay1 is OFF, program switches this Relay1 to ON
       
 #### Example of relay OFF
