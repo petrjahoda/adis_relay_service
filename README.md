@@ -19,9 +19,9 @@
 Go service that enables Zapsi Relay1, if there exists an open terminal_input_order and Relay1 is not enabled
 
 ## Installation Information
-Windows: install using sc.exe
-Linux: install using systemd
-Docker: install using image from https://hub.docker.com/r/petrjahoda/adis_relay_service
+- Windows: install using sc.exe
+- Linux: install using systemd
+- Docker: install using image from https://hub.docker.com/r/petrjahoda/adis_relay_service
 
 ## Developer Information
 For every workplace one go routine is running in a 10-second loop.
