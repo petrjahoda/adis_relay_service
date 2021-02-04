@@ -13,7 +13,7 @@ const serviceName = "Adis Relay Service"
 const serviceDescription = "Work with Zapsi Relays"
 const downloadInSeconds = 10
 
-var config = "zapsi_uzivatel:zapsi@tcp(zapasidatabase:3306)/zapsi2?charset=utf8mb4&parseTime=True&loc=Local"
+var config = "zapsi_uzivatel:zapsi@tcp(zapsidatabase:3306)/zapsi2?charset=utf8mb4&parseTime=True&loc=Local"
 var serviceRunning = false
 
 var (
@@ -61,7 +61,7 @@ func (p *program) Stop(service.Service) error {
 
 func (p *program) run() {
 	if runtime.GOOS == "windows" {
-		config = "zapsi_uzivatel:zapsi@tcp(localopst:3306)/zapsi2?charset=utf8mb4&parseTime=True&loc=Local"
+		config = "zapsi_uzivatel:zapsi@tcp(localhost:3306)/zapsi2?charset=utf8mb4&parseTime=True&loc=Local"
 	}
 	for {
 		logInfo("MAIN", serviceName+" ["+version+"] running")
@@ -74,7 +74,6 @@ func (p *program) run() {
 				go runWorkplace(activeWorkplace)
 			}
 		}
-
 		if time.Since(start) < (downloadInSeconds * time.Second) {
 			sleepTime := downloadInSeconds*time.Second - time.Since(start)
 			logInfo("MAIN", "Sleeping for "+sleepTime.String())

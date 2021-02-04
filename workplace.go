@@ -47,7 +47,7 @@ func runWorkplace(workplace Workplace) {
 }
 
 func enableZapsiRelay(deviceIpAddress string, workplace Workplace) {
-	logInfo(workplace.Name, "Enabling device relay for " + deviceIpAddress)
+	logInfo(workplace.Name, "Enabling device relay for "+deviceIpAddress)
 	conn, err := net.Dial("tcp", deviceIpAddress+":80")
 	if err != nil {
 	}
@@ -56,8 +56,6 @@ func enableZapsiRelay(deviceIpAddress string, workplace Workplace) {
 	var buf bytes.Buffer
 	_, _ = io.Copy(&buf, conn)
 }
-
-
 
 func checkForZapsiRelay(zapsiDeviceId int, workplace Workplace) (bool, string) {
 	logInfo(workplace.Name, "Checking for open relay")
@@ -68,7 +66,6 @@ func checkForZapsiRelay(zapsiDeviceId int, workplace Workplace) (bool, string) {
 		logError(workplace.Name, "Problem opening database: "+err.Error())
 		return false, ""
 	}
-
 	var device Device
 	db.Where("OID = ?", zapsiDeviceId).Find(&device)
 	deviceHasOpenRelay := checkDeviceWithIp(device.IPAddress)
@@ -104,7 +101,6 @@ func checkOpenTerminalInputOrderFor(terminalDeviceId int, workplace Workplace) b
 		logError(workplace.Name, "Problem opening database: "+err.Error())
 		return false
 	}
-
 	var terminalInputOrderFirst TerminalInputOrder
 	db.Where("DTE is null").Where("DeviceID = ?", terminalDeviceId).Find(&terminalInputOrderFirst)
 	time.Sleep(3 * time.Second)
@@ -128,10 +124,10 @@ func updateZapsiDeviceIdFor(workplace Workplace) int {
 	var workplacePort WorkplacePort
 	db.Where("WorkplaceID = ?", workplace.OID).Where("Type = 'current'").Find(&workplacePort)
 	logInfo(workplace.Name, "Workplace port id: "+strconv.Itoa(workplacePort.OID))
-	var deviceport DevicePort
-	db.Where("OID = ?", workplacePort.DevicePortID).Find(&deviceport)
-	logInfo(workplace.Name, "Zapsi port id: "+strconv.Itoa(deviceport.OID))
-	return deviceport.DeviceID
+	var devicePort DevicePort
+	db.Where("OID = ?", workplacePort.DevicePortID).Find(&devicePort)
+	logInfo(workplace.Name, "Zapsi port id: "+strconv.Itoa(devicePort.OID))
+	return devicePort.DeviceID
 }
 
 func updateTerminalDeviceIdFor(workplace Workplace) int {
