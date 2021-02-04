@@ -46,17 +46,6 @@ func runWorkplace(workplace Workplace) {
 	logInfo(workplace.Name, "Workplace not active, stopped running")
 }
 
-func enableZapsiRelay(deviceIpAddress string, workplace Workplace) {
-	logInfo(workplace.Name, "Enabling device relay for "+deviceIpAddress)
-	conn, err := net.Dial("tcp", deviceIpAddress+":80")
-	if err != nil {
-	}
-	defer conn.Close()
-	fmt.Fprintf(conn, "SET /Rele1")
-	var buf bytes.Buffer
-	_, _ = io.Copy(&buf, conn)
-}
-
 func checkForZapsiRelay(zapsiDeviceId int, workplace Workplace) (bool, string) {
 	logInfo(workplace.Name, "Checking for open relay")
 	db, err := gorm.Open(mysql.Open(config), &gorm.Config{})
@@ -71,6 +60,17 @@ func checkForZapsiRelay(zapsiDeviceId int, workplace Workplace) (bool, string) {
 	deviceHasOpenRelay := checkDeviceWithIp(device.IPAddress)
 	logInfo(workplace.Name, "Relay open: "+strconv.FormatBool(deviceHasOpenRelay))
 	return deviceHasOpenRelay, device.IPAddress
+}
+
+func enableZapsiRelay(deviceIpAddress string, workplace Workplace) {
+	logInfo(workplace.Name, "Enabling device relay for "+deviceIpAddress)
+	conn, err := net.Dial("tcp", deviceIpAddress+":80")
+	if err != nil {
+	}
+	defer conn.Close()
+	fmt.Fprintf(conn, "SET /Rele1")
+	var buf bytes.Buffer
+	_, _ = io.Copy(&buf, conn)
 }
 
 func checkDeviceWithIp(deviceIpAddress string) bool {
@@ -170,6 +170,15 @@ func checkActive(workplace Workplace) bool {
 	return false
 }
 
+func checkWorkplaceInRunningWorkplaces(workplace Workplace) bool {
+	for _, runningWorkplace := range runningWorkplaces {
+		if runningWorkplace.Name == workplace.Name {
+			return true
+		}
+	}
+	return false
+}
+
 func removeWorkplaceFromRunningWorkplaces(workplace Workplace) {
 	workplaceSync.Lock()
 	for idx, runningWorkplace := range runningWorkplaces {
@@ -178,13 +187,4 @@ func removeWorkplaceFromRunningWorkplaces(workplace Workplace) {
 		}
 	}
 	workplaceSync.Unlock()
-}
-
-func checkWorkplaceInRunningWorkplaces(workplace Workplace) bool {
-	for _, runningWorkplace := range runningWorkplaces {
-		if runningWorkplace.Name == workplace.Name {
-			return true
-		}
-	}
-	return false
 }
