@@ -24,32 +24,33 @@ Go service that enables Zapsi Relay1, if there exists an open terminal_input_ord
 - Docker: install using image from https://hub.docker.com/r/petrjahoda/adis_relay_service
 
 ## Developer Information
-For every workplace one go routine is running in a 10-second loop.
+For every workplace, one go routine is running, in a 10-second loop.
 1. At the beginning of a loop:
     - program checks for assigned terminal deviceid
     - program checks for assigned zapsi deviceid
     - program checks for any open terminal_input_order (DTE == null) for assigned terminal device_id, two times with 3 second pause
-2. If any open terminal_input_order found, program checks assigned zapsi for open Relay on 5th line
-    - If Relay1 is closed, program opens Relay1
-<br><br><br><br>
-
-#### Example of opened relay
+2. If any open terminal_input_order found, program checks assigned zapsi for Relay ON
+    - If Relay1 is OF, program switched this Relay1 to ON
+<br>
+<br>
+#### Example of relay OFF
 ```
 [Inputs 1-8_]
 0-0-0-0-0-0-0-0
 
 [Output 1-8]
-1-0-0-0-0-0-1-0
+0-0-0-0-0-0-0-0
 ```
-
-#### Example of closed relay
+#### Example of relay ON
 ```
 [Inputs 1-8_]
 0-0-0-0-0-0-0-0
 
 [Output 1-8]
-0-0-0-0-0-0-1-0
+1-0-0-0-0-0-0-0
 ```
+
+
 
     
 © 2021 Petr Jahoda
